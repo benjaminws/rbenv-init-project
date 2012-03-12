@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+  { echo "version ${RBENV_INIT_PROJECT_VERSION}"
+    echo "${0##*/} [command] [options]"
+    echo
+    echo "possible commands are:"
+    echo "  current (use cwd for gemset name, active version of ruby) *default"
+    echo "  help (this)"
+    echo "  version"
+  } >&2
+  exit 1
+

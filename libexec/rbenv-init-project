@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -e
+
+RBENV_INIT_PROJECT_VERSION='0.0.1'
+
+[ -n "$RBENV_DEBUG" ] && set -x
+
+# Provide rbenv completions
+if [ "$1" = "--complete" ]; then
+  echo "current"
+  echo "version"
+  exit
+fi
+
+if [ "$1" = "version" ] || [ "$1" = "--version" ]; then
+  echo "rbenv-init-project ${RBENV_INIT_PROJECT_VERSION}"
+  echo "by @benjaminws"
+  echo "http://github.com/benjaminws/rbenv-init-project"
+  exit
+fi
+
+resolve_link() {
+  $(type -p greadlink readlink | head -1) $1
+}
+
+abs_dirname() {
+  local cwd="$(pwd)"
+  local path="$1"
+
+  while [ -n "$path" ]; do
+    cd "${path%/*}"
+    local name="${path##*/}"
+    path="$(resolve_link "$name" || true)"
+  done
+
+  pwd
+  cd "$cwd"
+}
+
+bin_path="$(abs_dirname "$0")"
+export PATH="${bin_path}:$PATH"
+
+command="$1"
+command_path="$(command -v "rbenv-init-project-$command" || true)"
+
+echo $command_path
+if [ -z "$command_path" ]; then
+  command_path="$(command -v "rbenv-init-project-current")"
+fi
+
+echo $command_path
+
+shift
+exec "$command_path" "$@"
