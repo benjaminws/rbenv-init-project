@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-echo "hi"
+CWD=$(basename `pwd`)
+CURRENT_RUBBY="$(rbenv global)"
+GEMSET_EXISTS="$(rbenv gemset version 2>/dev/null || true)"
+USE_GEMSETS=false
+
+echo "${CURRENT_RUBBY}" > .rbenv-version
+
+if [ ! -z "$GEMSET_EXISTS" ]; then
+  echo "${CWD}" > .rbenv-gemsets
+  rbenv gemset create ${CURRENT_RUBBY} ${CWD}
+else
+  echo "set project to use ${CURRENT_RUBBY}"
+fi

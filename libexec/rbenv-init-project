@@ -43,12 +43,9 @@ export PATH="${bin_path}:$PATH"
 command="$1"
 command_path="$(command -v "rbenv-init-project-$command" || true)"
 
-echo $command_path
 if [ -z "$command_path" ]; then
-  command_path="$(command -v "rbenv-init-project-current")"
+  exec "$(command -v "rbenv-init-project-current")"
 fi
-
-echo $command_path
 
 shift
 exec "$command_path" "$@"
