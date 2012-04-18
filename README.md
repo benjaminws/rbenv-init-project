@@ -18,4 +18,4 @@ I have plans to make it more flexible, but it works for now.
 
     $ mkdir -p ~/.rbenv/plugins
     $ cd ~/.rbenv/plugins
-    $ git clone git@github.com:benjaminws/rbenv-init-project.git
+    $ git clone git://github.com/benjaminws/rbenv-init-project.git 
